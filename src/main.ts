@@ -1,7 +1,13 @@
 import {PublishIssue} from './services/publish-issue'
+import {IssueBodyBuilder} from './services/issue-body-builder'
+import {CommitCountFetcher} from './services/commit-count-fetcher'
+import {Octokit} from 'octokit'
 
 async function run(): Promise<void> {
-  new PublishIssue(process.env.GITHUB_TOKEN || '').publish()
+  const octokit = new Octokit({auth: process.env.GITHUB_TOKEN})
+  const bodyBuilder = new IssueBodyBuilder()
+  bodyBuilder.registerFetcher(new CommitCountFetcher(octokit))
+  new PublishIssue(octokit, bodyBuilder).publish()
 }
 
 run()
