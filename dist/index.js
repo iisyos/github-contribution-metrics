@@ -48,10 +48,14 @@ const octokit_1 = __nccwpck_require__(7467);
 const option_1 = __nccwpck_require__(2103);
 const core = __importStar(__nccwpck_require__(2186));
 function run() {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
-        const auth = `${process.env.TOKEN}-token`;
-        core.debug(`auth: ${auth}`);
-        const octokit = new octokit_1.Octokit({ auth });
+        core.debug('start');
+        core.debug((_a = process.env.GITHUB_TOKEN) !== null && _a !== void 0 ? _a : 'token');
+        const octokit = new octokit_1.Octokit({ auth: process.env.TOKEN });
+        core.debug(`GITHUB_TOKEN is ${process.env.GITHUB_TOKEN ? 'set' : 'not set'}`);
+        core.debug(`GITHUB_TOKEN is ${process.env.TEST ? 'set' : 'not set'}`);
+        core.debug('octokit');
         const bodyBuilder = new issue_body_builder_1.IssueBodyBuilder((0, option_1.option)());
         bodyBuilder
             .registerFetcher(new commit_count_fetcher_1.CommitCountFetcher(octokit))

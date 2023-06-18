@@ -8,9 +8,12 @@ import {option} from './option'
 import * as core from '@actions/core'
 
 async function run(): Promise<void> {
-  const auth = `${process.env.TOKEN}-token`
-  core.debug(`auth: ${auth}`)
-  const octokit = new Octokit({auth})
+  core.debug('start')
+  core.debug(process.env.GITHUB_TOKEN ?? 'token')
+  const octokit = new Octokit({auth: process.env.TOKEN})
+  core.debug(`GITHUB_TOKEN is ${process.env.GITHUB_TOKEN ? 'set' : 'not set'}`)
+  core.debug(`GITHUB_TOKEN is ${process.env.TEST ? 'set' : 'not set'}`)
+  core.debug('octokit')
   const bodyBuilder = new IssueBodyBuilder(option())
 
   bodyBuilder
