@@ -5,9 +5,11 @@ import {PRCountFetcher} from './services/pr-count-fetcher'
 import {LineCountFetcher} from './services/line-count-fetcher'
 import {Octokit} from 'octokit'
 import {option} from './option'
+import * as core from '@actions/core'
 
 async function run(): Promise<void> {
-  const auth = `${process.env.TOKEN}`
+  const auth = `${process.env.TOKEN}-token`
+  core.debug(`auth: ${auth}`)
   const octokit = new Octokit({auth})
   const bodyBuilder = new IssueBodyBuilder(option())
 
