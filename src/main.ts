@@ -5,10 +5,15 @@ import {PRCountFetcher} from './services/pr-count-fetcher'
 import {LineCountFetcher} from './services/line-count-fetcher'
 import {Octokit} from 'octokit'
 import {option} from './option'
+import * as core from '@actions/core'
 
 async function run(): Promise<void> {
+  core.debug('start')
+  core.debug(process.env.GITHUB_TOKEN ?? 'token')
   const octokit = new Octokit({auth: process.env.GITHUB_TOKEN})
+  core.debug('octokit')
   const bodyBuilder = new IssueBodyBuilder(option())
+
   bodyBuilder
     .registerFetcher(new CommitCountFetcher(octokit))
     .registerFetcher(new LineCountFetcher())

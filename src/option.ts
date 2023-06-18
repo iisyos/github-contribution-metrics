@@ -6,9 +6,9 @@ export const option = (): Option => {
   const until = new Date(Date.now() + period * 24 * 60 * 60 * 1000)
     .toISOString()
     .split('T')[0]
-
+  const repo = core.getInput('repo').split('/')[1]
   return {
-    repo: core.getInput('repo'),
+    repo,
     owner: core.getInput('owner'),
     since,
     until
