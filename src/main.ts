@@ -3,12 +3,12 @@ import {IssueBodyBuilder} from './services/issue-body-builder'
 import {CommitCountFetcher} from './services/commit-count-fetcher'
 import {PRCountFetcher} from './services/pr-count-fetcher'
 import {LineCountFetcher} from './services/line-count-fetcher'
-
 import {Octokit} from 'octokit'
+import {option} from './option'
 
 async function run(): Promise<void> {
   const octokit = new Octokit({auth: process.env.GITHUB_TOKEN})
-  const bodyBuilder = new IssueBodyBuilder()
+  const bodyBuilder = new IssueBodyBuilder(option())
   bodyBuilder
     .registerFetcher(new CommitCountFetcher(octokit))
     .registerFetcher(new LineCountFetcher())

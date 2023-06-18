@@ -1,9 +1,10 @@
 import {StatsFetcher} from '../interfaces/stats-fetcher'
 import {exec} from 'child_process'
+import {Option} from '../option'
 
 export class LineCountFetcher implements StatsFetcher {
-  async fetchStats(author: string): Promise<string> {
-    const command = `git log --numstat --pretty="%H" --author='${author}' --no-merges`
+  async fetchStats(author: string, option: Option): Promise<string> {
+    const command = `git log --numstat --pretty="%H" --author='${author}' --since=${option.since} --until=${option.until} --no-merges`
     const promise = new Promise<string>((resolve, reject) => {
       exec(command, (err, stdout) => {
         if (err) {
