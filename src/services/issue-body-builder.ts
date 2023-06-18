@@ -11,7 +11,7 @@ export class IssueBodyBuilder {
   async buildBody(contributors: string[]): Promise<string> {
     let body = ''
     for (const contributor of contributors) {
-      body += `### ${contributor}\n`
+      body += `## @${contributor}\n`
       for (const fetcher of this.fetchers) {
         body += await fetcher.fetchStats(contributor)
       }
