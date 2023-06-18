@@ -160,15 +160,15 @@ class PublishIssue {
     }
     publish() {
         return __awaiter(this, void 0, void 0, function* () {
-            const contributors = yield this.getContributors();
-            const body = yield this.bodyBuilder.buildBody(contributors);
-            const issue = {
-                owner: 'iisyos',
-                repo: 'actions_runner',
-                title: 'New Issue',
-                body
-            };
-            yield this.octokit.rest.issues.create(issue);
+            yield this.getContributors();
+            // const body = await this.bodyBuilder.buildBody(contributors)
+            // const issue = {
+            //   owner: 'iisyos',
+            //   repo: 'actions_runner',
+            //   title: 'New Issue',
+            //   body
+            // }
+            // await this.octokit.rest.issues.create(issue)
         });
     }
     getContributors() {

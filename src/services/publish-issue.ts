@@ -6,16 +6,16 @@ export class PublishIssue {
     private bodyBuilder: IssueBodyBuilder
   ) {}
   async publish(): Promise<void> {
-    const contributors = await this.getContributors()
-    const body = await this.bodyBuilder.buildBody(contributors)
+    await this.getContributors()
+    // const body = await this.bodyBuilder.buildBody(contributors)
 
-    const issue = {
-      owner: 'iisyos',
-      repo: 'actions_runner',
-      title: 'New Issue',
-      body
-    }
-    await this.octokit.rest.issues.create(issue)
+    // const issue = {
+    //   owner: 'iisyos',
+    //   repo: 'actions_runner',
+    //   title: 'New Issue',
+    //   body
+    // }
+    // await this.octokit.rest.issues.create(issue)
   }
 
   private async getContributors(): Promise<string[]> {
