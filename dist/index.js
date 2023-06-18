@@ -53,6 +53,7 @@ function run() {
         core.debug('start');
         core.debug((_a = process.env.GITHUB_TOKEN) !== null && _a !== void 0 ? _a : 'token');
         const octokit = new octokit_1.Octokit({ auth: process.env.GITHUB_TOKEN });
+        core.debug(`GITHUB_TOKEN is ${process.env.GITHUB_TOKEN ? 'set' : 'not set'}`);
         core.debug('octokit');
         const bodyBuilder = new issue_body_builder_1.IssueBodyBuilder((0, option_1.option)());
         bodyBuilder
@@ -104,14 +105,14 @@ const option = () => {
     const until = new Date(Date.now() + period * 24 * 60 * 60 * 1000)
         .toISOString()
         .split('T')[0];
-    const rawRepo = core.getInput('repo').split('/');
+    const rawRepo = 'iisyos/actions_runner'.split('/');
     const owner = rawRepo[0];
     const repo = rawRepo[1];
     core.debug(`owner: ${owner}`);
     core.debug(`repo: ${repo}`);
     return {
-        repo: 'actions_runner',
-        owner: 'iisyos',
+        repo,
+        owner,
         since,
         until
     };

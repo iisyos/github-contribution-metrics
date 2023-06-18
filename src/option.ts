@@ -6,14 +6,14 @@ export const option = (): Option => {
   const until = new Date(Date.now() + period * 24 * 60 * 60 * 1000)
     .toISOString()
     .split('T')[0]
-  const rawRepo = core.getInput('repo').split('/')
+  const rawRepo = 'iisyos/actions_runner'.split('/')
   const owner = rawRepo[0]
   const repo = rawRepo[1]
   core.debug(`owner: ${owner}`)
   core.debug(`repo: ${repo}`)
   return {
-    repo: 'actions_runner',
-    owner: 'iisyos',
+    repo,
+    owner,
     since,
     until
   }

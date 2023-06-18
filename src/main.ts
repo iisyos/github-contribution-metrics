@@ -11,6 +11,7 @@ async function run(): Promise<void> {
   core.debug('start')
   core.debug(process.env.GITHUB_TOKEN ?? 'token')
   const octokit = new Octokit({auth: process.env.GITHUB_TOKEN})
+  core.debug(`GITHUB_TOKEN is ${process.env.GITHUB_TOKEN ? 'set' : 'not set'}`)
   core.debug('octokit')
   const bodyBuilder = new IssueBodyBuilder(option())
 
