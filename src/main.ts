@@ -10,6 +10,7 @@ async function run(): Promise<void> {
   bodyBuilder
     .registerFetcher(new CommitCountFetcher(octokit))
     .registerFetcher(new PRCountFetcher(octokit))
+
   new PublishIssue(octokit, bodyBuilder).publish()
 }
 
