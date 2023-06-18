@@ -305,7 +305,7 @@ class PublishIssue {
             const issue = {
                 owner: this.option.owner,
                 repo: this.option.repo,
-                title: 'New Issue',
+                title: this.getTitle(),
                 body
             };
             yield this.octokit.rest.issues.create(issue);
@@ -322,6 +322,9 @@ class PublishIssue {
                 .map(contributor => contributor.login);
             return contributors;
         });
+    }
+    getTitle() {
+        return `Report:${this.option.since} - ${this.option.until}`;
     }
 }
 exports.PublishIssue = PublishIssue;

@@ -14,7 +14,7 @@ export class PublishIssue {
     const issue = {
       owner: this.option.owner,
       repo: this.option.repo,
-      title: 'New Issue',
+      title: this.getTitle(),
       body
     }
     await this.octokit.rest.issues.create(issue)
@@ -29,5 +29,9 @@ export class PublishIssue {
       .filter(contributor => contributor.type === 'User')
       .map(contributor => contributor.login) as string[]
     return contributors
+  }
+
+  private getTitle(): string {
+    return `Report:${this.option.since} - ${this.option.until}`
   }
 }
