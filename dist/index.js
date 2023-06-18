@@ -18,19 +18,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const publish_issue_1 = __nccwpck_require__(7956);
 const issue_body_builder_1 = __nccwpck_require__(2501);
-// import {CommitCountFetcher} from './services/commit-count-fetcher'
-// import {PRCountFetcher} from './services/pr-count-fetcher'
-// import {LineCountFetcher} from './services/line-count-fetcher'
+const commit_count_fetcher_1 = __nccwpck_require__(7608);
+const pr_count_fetcher_1 = __nccwpck_require__(1239);
+const line_count_fetcher_1 = __nccwpck_require__(7905);
 const octokit_1 = __nccwpck_require__(7467);
 const option_1 = __nccwpck_require__(2103);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         const octokit = new octokit_1.Octokit({ auth: process.env.TOKEN });
         const bodyBuilder = new issue_body_builder_1.IssueBodyBuilder((0, option_1.option)());
-        bodyBuilder;
-        // .registerFetcher(new CommitCountFetcher(octokit))
-        // .registerFetcher(new LineCountFetcher())
-        // .registerFetcher(new PRCountFetcher(octokit))
+        bodyBuilder
+            .registerFetcher(new commit_count_fetcher_1.CommitCountFetcher(octokit))
+            .registerFetcher(new line_count_fetcher_1.LineCountFetcher())
+            .registerFetcher(new pr_count_fetcher_1.PRCountFetcher(octokit));
         new publish_issue_1.PublishIssue(octokit, bodyBuilder, (0, option_1.option)()).publish();
     });
 }
@@ -93,6 +93,39 @@ exports.option = option;
 
 /***/ }),
 
+/***/ 7608:
+/***/ (function(__unused_webpack_module, exports) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CommitCountFetcher = void 0;
+class CommitCountFetcher {
+    constructor(octokit) {
+        this.octokit = octokit;
+    }
+    fetchStats(author, option) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { data: commits } = yield this.octokit.rest.repos.listCommits(Object.assign({ author }, option));
+            const commitCount = commits.length;
+            return `### Commits\nCount: ${commitCount}\n`;
+        });
+    }
+}
+exports.CommitCountFetcher = CommitCountFetcher;
+
+
+/***/ }),
+
 /***/ 2501:
 /***/ (function(__unused_webpack_module, exports) {
 
@@ -133,6 +166,112 @@ class IssueBodyBuilder {
     }
 }
 exports.IssueBodyBuilder = IssueBodyBuilder;
+
+
+/***/ }),
+
+/***/ 7905:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.LineCountFetcher = void 0;
+const child_process_1 = __nccwpck_require__(2081);
+class LineCountFetcher {
+    fetchStats(author, option) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const command = `git log --numstat --pretty="%H" --author='${author}' --since=${option.since} --until=${option.until} --no-merges`;
+            const promise = new Promise((resolve, reject) => {
+                (0, child_process_1.exec)(command, (err, stdout) => {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    const lines = stdout.split('\n');
+                    let addedLines = 0;
+                    let deletedLines = 0;
+                    for (const line of lines) {
+                        const parts = line.split('\t');
+                        if (parts.length === 3 && parts[0] !== '-' && parts[1] !== '-') {
+                            addedLines += Number(parts[0]);
+                            deletedLines += Number(parts[1]);
+                        }
+                    }
+                    resolve(`### Lines\nCount: ${addedLines + deletedLines} (+${addedLines}, -${deletedLines})\n`);
+                });
+            });
+            const body = yield promise;
+            return body;
+        });
+    }
+}
+exports.LineCountFetcher = LineCountFetcher;
+
+
+/***/ }),
+
+/***/ 1239:
+/***/ (function(__unused_webpack_module, exports) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PRCountFetcher = void 0;
+class PRCountFetcher {
+    constructor(octokit) {
+        this.octokit = octokit;
+    }
+    fetchStats(author, option) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let body = '';
+            const openedQuery = `repo:${option.owner}/${option.repo} author:${author} is:pr created:${option.since}..${option.until}`;
+            const { data: openedData } = yield this.octokit.rest.search.issuesAndPullRequests({
+                q: openedQuery
+            });
+            const openedPRs = openedData.items.map(pr => {
+                return { title: pr.title, url: pr.html_url };
+            });
+            body += `### Opened PRs\n`;
+            body += `Count: ${openedPRs.length}\n`;
+            for (const pr of openedPRs) {
+                body += `- [${pr.title}](${pr.url})\n`;
+            }
+            const mergedQuery = `repo:${option.owner}/${option.repo} author:${author} is:pr merged:${option.since}..${option.until}`;
+            const { data: mergedData } = yield this.octokit.rest.search.issuesAndPullRequests({
+                q: mergedQuery
+            });
+            const mergedPRs = mergedData.items.map(pr => {
+                return { title: pr.title, url: pr.html_url };
+            });
+            body += `### Merged PRs\n`;
+            body += `Count: ${mergedPRs.length}\n`;
+            for (const pr of mergedPRs) {
+                body += `- [${pr.title}](${pr.url})\n`;
+            }
+            return body;
+        });
+    }
+}
+exports.PRCountFetcher = PRCountFetcher;
 
 
 /***/ }),
@@ -38813,6 +38952,14 @@ module.exports = require("assert");
 
 "use strict";
 module.exports = require("buffer");
+
+/***/ }),
+
+/***/ 2081:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("child_process");
 
 /***/ }),
 
