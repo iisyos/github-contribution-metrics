@@ -31,7 +31,7 @@ function run() {
         // .registerFetcher(new CommitCountFetcher(octokit))
         // .registerFetcher(new LineCountFetcher())
         // .registerFetcher(new PRCountFetcher(octokit))
-        new publish_issue_1.PublishIssue(octokit, bodyBuilder).publish();
+        new publish_issue_1.PublishIssue(octokit, bodyBuilder, (0, option_1.option)()).publish();
     });
 }
 run();
@@ -154,33 +154,34 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PublishIssue = void 0;
 class PublishIssue {
-    constructor(octokit, bodyBuilder) {
+    constructor(octokit, bodyBuilder, option) {
         this.octokit = octokit;
         this.bodyBuilder = bodyBuilder;
+        this.option = option;
     }
     publish() {
         return __awaiter(this, void 0, void 0, function* () {
-            // const contributors = await this.getContributors()
-            // const body = await this.bodyBuilder.buildBody(contributors)
-            // const issue = {
-            //   owner: 'iisyos',
-            //   repo: 'actions_runner',
-            //   title: 'New Issue',
-            //   body
-            // }
-            // await this.octokit.rest.issues.create(issue)
+            const contributors = yield this.getContributors();
+            const body = yield this.bodyBuilder.buildBody(contributors);
+            const issue = {
+                owner: this.option.owner,
+                repo: this.option.repo,
+                title: 'New Issue',
+                body
+            };
+            yield this.octokit.rest.issues.create(issue);
         });
     }
     getContributors() {
         return __awaiter(this, void 0, void 0, function* () {
-            // const {data} = await this.octokit.rest.repos.listContributors({
-            //   owner: 'iisyos',
-            //   repo: 'portfolio'
-            // })
-            // const contributors = data
-            //   .filter(contributor => contributor.type === 'User')
-            //   .map(contributor => contributor.login) as string[]
-            return ['a'];
+            const { data } = yield this.octokit.rest.repos.listContributors({
+                owner: this.option.owner,
+                repo: this.option.repo
+            });
+            const contributors = data
+                .filter(contributor => contributor.type === 'User')
+                .map(contributor => contributor.login);
+            return contributors;
         });
     }
 }

@@ -15,7 +15,7 @@ async function run(): Promise<void> {
   // .registerFetcher(new LineCountFetcher())
   // .registerFetcher(new PRCountFetcher(octokit))
 
-  new PublishIssue(octokit, bodyBuilder).publish()
+  new PublishIssue(octokit, bodyBuilder, option()).publish()
 }
 
 run()
