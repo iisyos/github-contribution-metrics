@@ -11,6 +11,6 @@ export class CommitCountFetcher implements StatsFetcher {
     })
     const commitCount = commits.length
 
-    return `Commits: ${commitCount}\n`
+    return `### Commits\nCount: ${commitCount}\n`
   }
 }
