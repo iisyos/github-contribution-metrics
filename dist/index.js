@@ -160,7 +160,7 @@ class PublishIssue {
     }
     publish() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.getContributors();
+            // const contributors = await this.getContributors()
             // const body = await this.bodyBuilder.buildBody(contributors)
             // const issue = {
             //   owner: 'iisyos',
@@ -173,14 +173,14 @@ class PublishIssue {
     }
     getContributors() {
         return __awaiter(this, void 0, void 0, function* () {
-            const { data } = yield this.octokit.rest.repos.listContributors({
-                owner: 'iisyos',
-                repo: 'portfolio'
-            });
-            const contributors = data
-                .filter(contributor => contributor.type === 'User')
-                .map(contributor => contributor.login);
-            return contributors;
+            // const {data} = await this.octokit.rest.repos.listContributors({
+            //   owner: 'iisyos',
+            //   repo: 'portfolio'
+            // })
+            // const contributors = data
+            //   .filter(contributor => contributor.type === 'User')
+            //   .map(contributor => contributor.login) as string[]
+            return ['a'];
         });
     }
 }

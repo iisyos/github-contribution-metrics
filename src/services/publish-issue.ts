@@ -18,13 +18,13 @@ export class PublishIssue {
   }
 
   private async getContributors(): Promise<string[]> {
-    const {data} = await this.octokit.rest.repos.listContributors({
-      owner: 'iisyos',
-      repo: 'portfolio'
-    })
-    const contributors = data
-      .filter(contributor => contributor.type === 'User')
-      .map(contributor => contributor.login) as string[]
-    return contributors
+    // const {data} = await this.octokit.rest.repos.listContributors({
+    //   owner: 'iisyos',
+    //   repo: 'portfolio'
+    // })
+    // const contributors = data
+    //   .filter(contributor => contributor.type === 'User')
+    //   .map(contributor => contributor.login) as string[]
+    return ['a']
   }
 }
