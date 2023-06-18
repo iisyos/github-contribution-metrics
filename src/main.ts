@@ -1,19 +1,21 @@
-import * as core from '@actions/core'
-import {wait} from './wait'
+import {PublishIssue} from './services/publish-issue'
+import {IssueBodyBuilder} from './services/issue-body-builder'
+import {CommitCountFetcher} from './services/commit-count-fetcher'
+import {PRCountFetcher} from './services/pr-count-fetcher'
+import {LineCountFetcher} from './services/line-count-fetcher'
+import {Octokit} from 'octokit'
+import {option} from './option'
 
 async function run(): Promise<void> {
-  try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+  const octokit = new Octokit({auth: process.env.TOKEN})
+  const bodyBuilder = new IssueBodyBuilder(option())
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+  bodyBuilder
+    .registerFetcher(new CommitCountFetcher(octokit))
+    .registerFetcher(new LineCountFetcher())
+    .registerFetcher(new PRCountFetcher(octokit))
 
-    core.setOutput('time', new Date().toTimeString())
-  } catch (error) {
-    if (error instanceof Error) core.setFailed(error.message)
-  }
+  new PublishIssue(octokit, bodyBuilder, option()).publish()
 }
 
 run()
