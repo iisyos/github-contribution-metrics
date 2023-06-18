@@ -1,4 +1,4 @@
-name: 'iisyos'
+name: 'github-contribution-metrics'
 description: 'Publish Git Activity to Issue'
 author: 'iisyos'
 inputs:
