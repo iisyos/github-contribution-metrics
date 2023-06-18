@@ -5,6 +5,9 @@ inputs:
   repo:
     required: true
     description: 'target repository'
+  token:
+    required: true
+    description: 'token'
   period:
     required: false
     description: 'period of activity'

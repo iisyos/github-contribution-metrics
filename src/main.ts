@@ -10,7 +10,7 @@ import * as core from '@actions/core'
 async function run(): Promise<void> {
   core.debug('start')
   core.debug(process.env.GITHUB_TOKEN ?? 'token')
-  const octokit = new Octokit({auth: process.env.TOKEN})
+  const octokit = new Octokit({auth: core.getInput('token')})
   core.debug(`TOKEN is ${process.env.TOKEN ? 'set' : 'not set'}`)
   core.debug(`GITHUB_TOKEN is ${process.env.GITHUB_TOKEN ? 'set' : 'not set'}`)
   core.debug(`TEST is ${process.env.TEST ? 'set' : 'not set'}`)
