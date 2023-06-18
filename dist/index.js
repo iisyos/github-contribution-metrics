@@ -53,8 +53,9 @@ function run() {
         core.debug('start');
         core.debug((_a = process.env.GITHUB_TOKEN) !== null && _a !== void 0 ? _a : 'token');
         const octokit = new octokit_1.Octokit({ auth: process.env.TOKEN });
+        core.debug(`TOKEN is ${process.env.TOKEN ? 'set' : 'not set'}`);
         core.debug(`GITHUB_TOKEN is ${process.env.GITHUB_TOKEN ? 'set' : 'not set'}`);
-        core.debug(`GITHUB_TOKEN is ${process.env.TEST ? 'set' : 'not set'}`);
+        core.debug(`TEST is ${process.env.TEST ? 'set' : 'not set'}`);
         core.debug('octokit');
         const bodyBuilder = new issue_body_builder_1.IssueBodyBuilder((0, option_1.option)());
         bodyBuilder
