@@ -72,10 +72,10 @@ exports.option = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const option = () => {
     const period = Number(core.getInput('period'));
-    const since = new Date().toISOString().split('T')[0];
-    const until = new Date(Date.now() + period * 24 * 60 * 60 * 1000)
+    const since = `${new Date().toISOString().split('T')[0]} 00:00:00`;
+    const until = `${new Date(Date.now() + period * 24 * 60 * 60 * 1000)
         .toISOString()
-        .split('T')[0];
+        .split('T')[0]} 00:00:00`;
     const rawRepo = 'iisyos/actions_runner'.split('/');
     const owner = rawRepo[0];
     const repo = rawRepo[1];
@@ -190,7 +190,7 @@ const child_process_1 = __nccwpck_require__(2081);
 class LineCountFetcher {
     fetchStats(author, option) {
         return __awaiter(this, void 0, void 0, function* () {
-            const command = `git log --numstat --pretty="%H" --author='${author}' --since=${option.since} --until=${option.until} --no-merges`;
+            const command = `git log --numstat --pretty="%H" --author='${author}' --since='${option.since}' --until='${option.until}' --no-merges`;
             const promise = new Promise((resolve, reject) => {
                 (0, child_process_1.exec)(command, (err, stdout) => {
                     if (err) {
