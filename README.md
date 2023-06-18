@@ -35,3 +35,7 @@ Then, github-actions bot publish issue like this.
 ## Contributing
 I welcome your issue or pull request from anyone.
 If you have any questions, please feel free to ask me!
+
+## Notice
+I assume committer and author are same name.
+If you'er using different name, maybe the count is not correct.
