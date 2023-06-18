@@ -6,29 +6,6 @@ require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -46,15 +23,9 @@ const pr_count_fetcher_1 = __nccwpck_require__(1239);
 const line_count_fetcher_1 = __nccwpck_require__(7905);
 const octokit_1 = __nccwpck_require__(7467);
 const option_1 = __nccwpck_require__(2103);
-const core = __importStar(__nccwpck_require__(2186));
 function run() {
-    var _a;
     return __awaiter(this, void 0, void 0, function* () {
-        core.debug('start');
-        core.debug((_a = process.env.TOKEN) !== null && _a !== void 0 ? _a : 'token');
-        const octokit = new octokit_1.Octokit({ auth: process.env.TOKEN });
-        core.debug(`GITHUB_TOKEN is ${process.env.TOKEN ? 'set' : 'not set'}`);
-        core.debug('octokit');
+        const octokit = new octokit_1.Octokit({ auth: `${process.env.TOKEN}-test` });
         const bodyBuilder = new issue_body_builder_1.IssueBodyBuilder((0, option_1.option)());
         bodyBuilder
             .registerFetcher(new commit_count_fetcher_1.CommitCountFetcher(octokit))

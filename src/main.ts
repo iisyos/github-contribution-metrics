@@ -5,14 +5,9 @@ import {PRCountFetcher} from './services/pr-count-fetcher'
 import {LineCountFetcher} from './services/line-count-fetcher'
 import {Octokit} from 'octokit'
 import {option} from './option'
-import * as core from '@actions/core'
 
 async function run(): Promise<void> {
-  core.debug('start')
-  core.debug(process.env.TOKEN ?? 'token')
-  const octokit = new Octokit({auth: process.env.TOKEN})
-  core.debug(`GITHUB_TOKEN is ${process.env.TOKEN ? 'set' : 'not set'}`)
-  core.debug('octokit')
+  const octokit = new Octokit({auth: `${process.env.TOKEN}-test`})
   const bodyBuilder = new IssueBodyBuilder(option())
 
   bodyBuilder
