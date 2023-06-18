@@ -1,0 +1,15 @@
+name: Report Git Activity
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Publish Report
+      uses: iisyos/github-contribution-metrics@main
+      env:
+        TOKEN: ${{ github.token }}
