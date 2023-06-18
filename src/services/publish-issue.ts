@@ -6,7 +6,8 @@ export class PublishIssue {
     private bodyBuilder: IssueBodyBuilder
   ) {}
   async publish(): Promise<void> {
-    // const body = await this.bodyBuilder.buildBody(['iisyos'])
+    const contributors = await this.getContributors()
+    const body = await this.bodyBuilder.buildBody(contributors)
     // const issue = {
     //   owner: 'iisyos',
     //   repo: 'actions_runner',
@@ -15,16 +16,16 @@ export class PublishIssue {
     // }
     // const {data} = await this.octokit.rest.issues.create(issue)
     // console.log('Created issue: %s', data.html_url)
-    this.getContributors()
   }
-  private async getContributors(): Promise<void> {
+
+  private async getContributors(): Promise<string[]> {
     const {data} = await this.octokit.rest.repos.listContributors({
       owner: 'iisyos',
       repo: 'actions_runner'
     })
-    const contributoers = data
+    const contributors = data
       .filter(contributor => contributor.type === 'User')
-      .map(contributor => contributor.login)
-    console.log(contributoers)
+      .map(contributor => contributor.login) as string[]
+    return contributors
   }
 }
