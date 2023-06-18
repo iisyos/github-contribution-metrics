@@ -3,8 +3,9 @@ import {StatsFetcher} from '../interfaces/stats-fetcher'
 export class IssueBodyBuilder {
   private fetchers: StatsFetcher[] = []
 
-  registerFetcher(fetcher: StatsFetcher): void {
+  registerFetcher(fetcher: StatsFetcher): this {
     this.fetchers.push(fetcher)
+    return this
   }
 
   async buildBody(contributors: string[]): Promise<string> {

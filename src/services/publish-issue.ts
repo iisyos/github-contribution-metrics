@@ -8,6 +8,8 @@ export class PublishIssue {
   async publish(): Promise<void> {
     const contributors = await this.getContributors()
     const body = await this.bodyBuilder.buildBody(contributors)
+    console.log(body)
+
     // const issue = {
     //   owner: 'iisyos',
     //   repo: 'actions_runner',
@@ -21,7 +23,7 @@ export class PublishIssue {
   private async getContributors(): Promise<string[]> {
     const {data} = await this.octokit.rest.repos.listContributors({
       owner: 'iisyos',
-      repo: 'actions_runner'
+      repo: 'portfolio'
     })
     const contributors = data
       .filter(contributor => contributor.type === 'User')
