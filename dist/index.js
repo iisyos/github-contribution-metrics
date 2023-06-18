@@ -25,7 +25,8 @@ const octokit_1 = __nccwpck_require__(7467);
 const option_1 = __nccwpck_require__(2103);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
-        const octokit = new octokit_1.Octokit({ auth: `${process.env.TOKEN}-test` });
+        const auth = `${process.env.TOKEN}`;
+        const octokit = new octokit_1.Octokit({ auth });
         const bodyBuilder = new issue_body_builder_1.IssueBodyBuilder((0, option_1.option)());
         bodyBuilder
             .registerFetcher(new commit_count_fetcher_1.CommitCountFetcher(octokit))

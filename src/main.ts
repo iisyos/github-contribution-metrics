@@ -7,7 +7,8 @@ import {Octokit} from 'octokit'
 import {option} from './option'
 
 async function run(): Promise<void> {
-  const octokit = new Octokit({auth: `${process.env.TOKEN}-test`})
+  const auth = `${process.env.TOKEN}`
+  const octokit = new Octokit({auth})
   const bodyBuilder = new IssueBodyBuilder(option())
 
   bodyBuilder
