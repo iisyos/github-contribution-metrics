@@ -2,9 +2,6 @@ name: 'iisyos'
 description: 'Publish Git Activity to Issue'
 author: 'iisyos'
 inputs:
-  repo:
-    required: true
-    description: 'target repository'
   period:
     required: false
     description: 'period of activity'

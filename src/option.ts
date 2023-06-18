@@ -1,4 +1,5 @@
 import * as core from '@actions/core'
+import * as github from '@actions/github'
 
 export const option = (): Option => {
   const period = Number(core.getInput('period'))
@@ -8,11 +9,11 @@ export const option = (): Option => {
       .toISOString()
       .split('T')[0]
   } 00:00:00`
-  const rawRepo = 'iisyos/actions_runner'.split('/')
-  const owner = rawRepo[0]
-  const repo = rawRepo[1]
-  core.debug(`owner: ${owner}`)
-  core.debug(`repo: ${repo}`)
+  const repoFullName = github.context.payload.repository?.full_name?.split('/')
+  if (!repoFullName) throw new Error("Can't get repository full name")
+
+  const owner = repoFullName[0]
+  const repo = repoFullName[1]
   return {
     repo,
     owner,
