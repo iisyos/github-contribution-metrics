@@ -6,9 +6,8 @@ export class PublishIssue {
     private bodyBuilder: IssueBodyBuilder
   ) {}
   async publish(): Promise<void> {
-    await this.getContributors()
+    // const contributors = await this.getContributors()
     // const body = await this.bodyBuilder.buildBody(contributors)
-
     // const issue = {
     //   owner: 'iisyos',
     //   repo: 'actions_runner',
