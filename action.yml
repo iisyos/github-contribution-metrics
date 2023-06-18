@@ -5,9 +5,6 @@ inputs:
   repo:
     required: true
     description: 'target repository'
-  owner:
-    required: true
-    description: 'repository owner'
   period:
     required: false
     description: 'period of activity'

@@ -104,10 +104,14 @@ const option = () => {
     const until = new Date(Date.now() + period * 24 * 60 * 60 * 1000)
         .toISOString()
         .split('T')[0];
-    const repo = core.getInput('repo').split('/')[1];
+    const rawRepo = core.getInput('repo').split('/');
+    const owner = rawRepo[0];
+    const repo = rawRepo[1];
+    core.debug(`owner: ${owner}`);
+    core.debug(`repo: ${repo}`);
     return {
         repo,
-        owner: core.getInput('owner'),
+        owner,
         since,
         until
     };
