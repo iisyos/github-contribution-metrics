@@ -25,7 +25,7 @@ export class LineCountFetcher implements StatsFetcher {
         resolve(
           `### Lines\nCount: ${
             addedLines + deletedLines
-          } (+${addedLines}, -${deletedLines})`
+          } (+${addedLines}, -${deletedLines})\n`
         )
       })
     })

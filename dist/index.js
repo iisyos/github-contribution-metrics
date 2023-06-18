@@ -110,8 +110,8 @@ const option = () => {
     core.debug(`owner: ${owner}`);
     core.debug(`repo: ${repo}`);
     return {
-        repo,
-        owner,
+        repo: 'actions_runner',
+        owner: 'iisyos',
         since,
         until
     };
@@ -235,7 +235,7 @@ class LineCountFetcher {
                             deletedLines += Number(parts[1]);
                         }
                     }
-                    resolve(`### Lines\nCount: ${addedLines + deletedLines} (+${addedLines}, -${deletedLines})`);
+                    resolve(`### Lines\nCount: ${addedLines + deletedLines} (+${addedLines}, -${deletedLines})\n`);
                 });
             });
             const body = yield promise;

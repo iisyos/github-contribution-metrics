@@ -12,8 +12,8 @@ export const option = (): Option => {
   core.debug(`owner: ${owner}`)
   core.debug(`repo: ${repo}`)
   return {
-    repo,
-    owner,
+    repo: 'actions_runner',
+    owner: 'iisyos',
     since,
     until
   }
