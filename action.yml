@@ -1,11 +1,17 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'iisyos'
+description: 'Publish Git Activity to Issue'
+author: 'iisyos'
 inputs:
-  milliseconds: # change this
+  repo:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'target repository'
+  owner:
+    required: true
+    description: 'repository owner'
+  period:
+    required: false
+    description: 'period of activity'
+    default: 7
 runs:
   using: 'node16'
   main: 'dist/index.js'
