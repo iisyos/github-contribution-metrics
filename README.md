@@ -5,9 +5,7 @@ This Repository is GitHub Actions package that summary git activity per contribu
 Using [schedule](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule) event is recommended. 
 
 ## Usage
-Install this package to your repository under format.
-
-It's all you need to do!
+1. Install this package to your repository under format.
 
 ```yml
 name: Report Git Activity
@@ -26,6 +24,10 @@ jobs:
       env:
         TOKEN: ${{ github.token }}
 ```
+
+2. give `Read and write` permission to the workflow.
+
+It's all you need to do!
 
 Then, github-actions bot publish issue like this.
 <img src="sample.png">
